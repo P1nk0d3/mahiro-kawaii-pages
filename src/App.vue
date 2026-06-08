@@ -1,5 +1,9 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
+const BASE_URL = import.meta.env.BASE_URL || "/";
+function asset(path) {
+  return `${BASE_URL.replace(/\/+$/, "")}${path}`;
+}
 import { FastForward, Heart, Pause, Play, Rewind, Sparkles, Volume2 } from "lucide-vue-next";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
@@ -34,23 +38,23 @@ const outfits = [
   {
     id: "uniform",
     label: "制服",
-    src: "/images/chara1_main.png",
+    src: asset("/images/chara1_main.png"),
     tone: "mint",
   },
   {
     id: "room",
     label: "部屋着",
-    src: "/images/chara1_main2.png",
+    src: asset("/images/chara1_main2.png"),
     tone: "berry",
   },
 ];
 
 const faceImages = [
-  "/images/mahiro_face01.png",
-  "/images/mahiro_face02.png",
-  "/images/mahiro_face03.png",
-  "/images/mahiro_face04.png",
-  "/images/mahiro_face05.png",
+  asset("/images/mahiro_face01.png"),
+  asset("/images/mahiro_face02.png"),
+  asset("/images/mahiro_face03.png"),
+  asset("/images/mahiro_face04.png"),
+  asset("/images/mahiro_face05.png"),
 ];
 
 const pages = [
@@ -162,7 +166,7 @@ function updateVolume(event) {
 }
 
 onMounted(async () => {
-  fetch("/music/playlist.json", { cache: "no-store" })
+  fetch(`${BASE_URL}music/playlist.json`, { cache: "no-store" })
     .then((response) => (response.ok ? response.json() : []))
     .then((items) => {
       tracks.value = Array.isArray(items) ? items : [];
@@ -423,7 +427,7 @@ onUnmounted(() => {
           <span class="sticker sticker-b">おやつ</span>
           <span class="sticker sticker-c">ねむい</span>
           <span class="sticker sticker-d">♡</span>
-          <img class="mini-mahiro" src="/images/chara1_main2.png" alt="绪山真寻" />
+          <img class="mini-mahiro" :src="asset('/images/chara1_main2.png')" alt="绪山真寻" />
         </div>
       </div>
     </section>
